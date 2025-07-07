@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    
+}
+h1 {
+    display: flex;
+}
+
+.player-ocean {
+    display: flex;
+}
+
+.opponents-ocean {
+    display: flex;
+}

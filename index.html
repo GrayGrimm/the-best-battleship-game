@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/app.js"></script>
+    <script defer src="js/app.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>Battleship Game</title>
 </head>
+
 <body>
-    <div id = "Game-Container">
-        <div id = "player-ocean">
 
+
+    <div id="game-container">
+        <h1>Battleship</h1>
+
+        <div id="game-message">
+            Welcome to the day that will decide the fates of many! This is Battleship! Place Your Ships and let the
+            games begin!
         </div>
-        <div id = "pc-ocean">
-            
+        <div class="game-board-container">
+            <div id="players-board-container">
+                <h2>Your Ocean</h2>
+                <div id="players-ocean" class="game-board"></div>
+            </div>
+
+            <div id="opponents-board-container">
+                <h2>Your Opponents Ocean</h2>
+                <div id="opponents-ocean"></div>
+            </div>
         </div>
-
-
+        <div id="ship-staging-area">
+            <button>Rotate Ship</button>
+        </div>
+        
+        <div class="game-controls">
+            <button id="start-the-game-button">Start Game</button>
+            <button id="reset-the-game-button">Reset Game</button>
+        </div>
     </div>
 </body>
+
 </html>
