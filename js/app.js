@@ -44,3 +44,25 @@ Game Over Condition
 IF all of one players ships are sunk, display a message that the other player has won.
 */
 
+
+
+/*-------------------------------- Constants --------------------------------*/
+
+
+
+/*---------------------------- Variables (state) ----------------------------*/
+
+
+
+/*------------------------ Cached Element References ------------------------*/
+
+
+
+/*-------------------------------- Functions --------------------------------*/
+
+
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+
+
