@@ -60,15 +60,9 @@ const gameBoard = document.querySelector('.game-board-container')
 const playerOneBoard = document.querySelector('#player-one-ocean')
 const playerTwoBoard = document.querySelector('#player-two-ocean')
 const displayMessage = document.querySelector('#game-message')
+const shipIcons = document.querySelectorAll('.ship-icon')
 
 /*-------------------------------- Functions --------------------------------*/
-
-const init = () => {
-
-}
-const render = () => {
-
-}
 const createBoard = (boardId) => {
     let gameBoard = [];
     const rows = 10;
@@ -80,8 +74,8 @@ const createBoard = (boardId) => {
         gameBoard[i] = [];
         const rowElement = document.createElement('div')
         rowElement.classList.add('board-row')
-     
-         for (let j = 0; j < coloum; j++) {
+
+        for (let j = 0; j < coloum; j++) {
             gameBoard[i][j] = '';
             const cellElement = document.createElement('div')
             cellElement.classList.add('board-cell')
@@ -94,7 +88,20 @@ const createBoard = (boardId) => {
 const playersGameBoard = createBoard('player-one-ocean');
 const opponentsGameBoard = createBoard('player-two-ocean');
 
+const init = () => {
+
+}
+const render = () => {
+
+}
+const handleClick = (event) => {
+    console.log(event.target.id);
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
-
-
+shipIcons.forEach((ship) => {
+    ship.addEventListener('click',(event) => {
+        handleClick(event);
+    })
+})
 
