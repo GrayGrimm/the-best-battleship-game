@@ -57,8 +57,8 @@ IF all of one players ships are sunk, display a message that the other player ha
 /*------------------------ Cached Element References ------------------------*/
 
 const gameBoard = document.querySelector('.game-board-container')
-const playerBoard = document.querySelector('#players-ocean')
-const opponentsBoard = document.querySelector('#opponents-ocean')
+const playerOneBoard = document.querySelector('#player-one-ocean')
+const playerTwoBoard = document.querySelector('#player-two-ocean')
 const displayMessage = document.querySelector('#game-message')
 
 /*-------------------------------- Functions --------------------------------*/
@@ -91,8 +91,8 @@ const createBoard = (boardId) => {
     }
     return gameBoard;
 }
-const playersGameBoard = createBoard('players-ocean');
-const opponentsGameBoard = createBoard('opponents-ocean');
+const playersGameBoard = createBoard('player-one-ocean');
+const opponentsGameBoard = createBoard('player-two-ocean');
 
 /*----------------------------- Event Listeners -----------------------------*/
 
