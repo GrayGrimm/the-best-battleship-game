@@ -47,20 +47,30 @@ IF all of one players ships are sunk, display a message that the other player ha
 
 
 /*-------------------------------- Constants --------------------------------*/
-
+const shipData = [
+    { name: 'Aircraft Carrier', length: 5, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Battleship', length: 4, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Destroyer', length: 3, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Dredger', length: 3, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Fortress', length: 2, hits: 0, sunk: false, locations: [], element: null }
+]
 
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-
+let currentPlayer;
+let currentShipBeingPlaced = null;
+let isVertical = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
 const gameBoard = document.querySelector('.game-board-container')
-const playerOneBoard = document.querySelector('#player-one-ocean')
-const playerTwoBoard = document.querySelector('#player-two-ocean')
+const playerOneOcean = document.querySelector('#player-one-ocean')
+const playerTwoOcean = document.querySelector('#player-two-ocean')
 const displayMessage = document.querySelector('#game-message')
 const shipIcons = document.querySelectorAll('.ship-icon')
+const playerOneRotateShipButton = document.querySelector('#player-one-rotate-ship-button')
+const playerTwoRotateShipButton = document.querySelector('#player-two-rotate-ship-button')
 
 /*-------------------------------- Functions --------------------------------*/
 const createBoard = (boardId) => {
@@ -77,31 +87,48 @@ const createBoard = (boardId) => {
 
         for (let j = 0; j < coloum; j++) {
             gameBoard[i][j] = '';
-            const cellElement = document.createElement('div')
-            cellElement.classList.add('board-cell')
-            rowElement.appendChild(cellElement)
+            const waterTiles = document.createElement('div')
+            waterTiles.classList.add('board-cell')
+            rowElement.appendChild(waterTiles)
         }
         boardContainer.appendChild(rowElement);
     }
+    boardContainer.addEventListener('click',(event) => {
+        const clickedCell = event.target.closest('.board-cell');
+        console.log(clickedCell);
+    })
     return gameBoard;
 }
-const playersGameBoard = createBoard('player-one-ocean');
-const opponentsGameBoard = createBoard('player-two-ocean');
+const playerOneGameOcean = createBoard('player-one-ocean');
+const playerTwoGameOcean = createBoard('player-two-ocean');
 
-const init = () => {
+const init = () => {}
 
-}
-const render = () => {
+const render = () => {}
 
-}
-const handleClick = (event) => {
+const handleEvent = (event) => {
     console.log(event.target.id);
 }
+
+// When the ship is clicked, it becomes selected, then when the rotate button is clicked it rotates the ship in the ship-yard, this returns with nothing selected
+// When the ship is clicked and held it can be draggeed onto the board, there the tiles will be highlighted green where the ship is over can can be placed
+// If the ship is to close to another ship the watertiles will become red
+// When the ship is hit/ updates the board by turning the watertile red
+
+const rotateShip = () => {
+
+}
+
+
+
+
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 shipIcons.forEach((ship) => {
     ship.addEventListener('click',(event) => {
-        handleClick(event);
+        handleEvent(event);
     })
 })
+
 

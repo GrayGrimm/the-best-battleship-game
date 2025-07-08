@@ -83,3 +83,23 @@ h1 {}
 .board-cell:hover {
     background-color: deepskyblue;
 }
+
+#player-two-ship-yard,
+#player-one-ship-yard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+#player-one-rotate-ship-button,
+#player-two-rotate-ship-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.ship-icon {
+    cursor: pointer;
+}
