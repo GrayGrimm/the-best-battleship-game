@@ -19,20 +19,27 @@
             Welcome to the day that will decide the fates of many! This is Battleship! Place Your Ships and let the
             games begin!
         </div>
+        
         <div class="game-board-container">
             <div id="players-board-container">
                 <h2>Your Ocean</h2>
                 <div id="players-ocean" class="game-board"></div>
+                    <div id="ship-staging-area"> 
+                        <h3>Ship Staging Area</h3>
+                        <button id="player-rotate-ship-button">Rotate Ship</button>
+                    </div>
             </div>
 
             <div id="opponents-board-container">
                 <h2>Your Opponents Ocean</h2>
-                <div id="opponents-ocean"></div>
+                <div id="opponents-ocean" class="game-board"></div>
+                <div id="ship-staging-area"> 
+                        <h3>Ship Staging Area</h3>
+                        <button id="opponent-rotate-ship-button">Rotate Ship</button>
+                    </div>
             </div>
         </div>
-        <div id="ship-staging-area">
-            <button>Rotate Ship</button>
-        </div>
+       
         
         <div class="game-controls">
             <button id="start-the-game-button">Start Game</button>
