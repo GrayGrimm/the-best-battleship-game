@@ -115,7 +115,7 @@ const createBoard = (boardId) => {
     boardContainer.appendChild(columnHeader)
 
     for (let i = 0; i < rows; i++) {
-        gameBoard[i] = []; 
+        gameBoard[i] = [];
         const rowElement = document.createElement('div')
         rowElement.classList.add('board-row')
 
@@ -125,7 +125,7 @@ const createBoard = (boardId) => {
         rowHeader.textContent = rowLetters
         rowElement.appendChild(rowHeader)
 
-        for (let j = 0; j < column; j++) { 
+        for (let j = 0; j < column; j++) {
             gameBoard[i][j] = '';
             const waterTiles = document.createElement('div')
             waterTiles.classList.add('board-cell', 'water-cell')
