@@ -506,11 +506,14 @@ init();
 
 /*-------------------------------------Code Graveyard---------------------------------------------------------------------------------------------------------
 
-When the ship is clicked, it becomes selected, then when the rotate button is clicked it rotates the ship in the ship-yard, this returns with nothing selected
-When the ship is clicked and held it can be draggeed onto the board, there the tiles will be highlighted green where the ship is over can can be placed
-If the ship is to close to another ship the watertiles will become red
-When the ship is hit/ updates the board by turning the watertile red
 add a function so when all ships are placed it nullifies the placeShip function so a message doesnt pop up
 maybe add a button for ai ship attack
+fix the winner function it is displaying the wrong winner
+ai is placing their ships where i placed mine
+add more realistic styling
+add noises
+maybe dd removeEventListenters
+more check functions
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
