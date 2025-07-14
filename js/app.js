@@ -55,7 +55,14 @@ const shipsData = [
     { name: 'Fortress', length: 2, hits: 0, sunk: false, locations: [], element: null }
 ]
 
-// const RowLetters = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+const aiShipsData = [
+    { name: 'Aircraft Carrier', length: 5, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Battleship', length: 4, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Destroyer', length: 3, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Dredger', length: 3, hits: 0, sunk: false, locations: [], element: null },
+    { name: 'Fortress', length: 2, hits: 0, sunk: false, locations: [], element: null }
+]
+
 
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -63,6 +70,8 @@ let currentPlayer = 'playerOne'; // Variable for current player
 let currentShipBeingPlaced = null;
 let currentShipLength = 0;
 let isVertical = false;
+let winner;
+let allShipsPlaced = false;
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -72,32 +81,34 @@ const playerTwoOcean = document.querySelector('#player-two-ocean')
 const displayMessage = document.querySelector('#game-message')
 const shipIcons = document.querySelectorAll('.ship-icon')
 const playerOneShipYard = document.getElementById('player-one-ship-yard')
+const playerTwoShipYard = document.getElementById('player-two-ship-yard')
 const playerOneRotateShipButton = document.querySelector('#player-one-rotate-ship-button')
-const playerTwoRotateShipButton = document.querySelector('#player-two-rotate-ship-button')
+const resetButun = document.querySelector('#reset-the-game-button')
+// const playerTwoRotateShipButton = document.querySelector('#player-two-rotate-ship-button')
 
 /*-------------------------------- Functions --------------------------------*/
 const createBoard = (boardId) => {
     let gameBoard = [];
     const rows = 10;
-    const coloum = 10;
+    const column = 10;
 
     const boardContainer = document.getElementById(boardId)
     boardContainer.innerHTML = '';
 
-    const coloumHeader = document.createElement('div');
-    coloumHeader.classList.add('board-row', 'header-row');
+    const columnHeader = document.createElement('div');
+    columnHeader.classList.add('board-row', 'header-row');
 
     const cornerCell = document.createElement('div');
     cornerCell.classList.add('board-cell', 'header-cell', 'corner-cell');
-    coloumHeader.appendChild(cornerCell);
+    columnHeader.appendChild(cornerCell);
 
-    for (let j = 0; j < coloum; j++) {
+    for (let j = 0; j < column; j++) {
         const headerCell = document.createElement('div')
         headerCell.classList.add('board-cell', 'header-cell', 'column-header')
         headerCell.textContent = j + 1
-        coloumHeader.appendChild(headerCell)
+        columnHeader.appendChild(headerCell)
     }
-    boardContainer.appendChild(coloumHeader)
+    boardContainer.appendChild(columnHeader)
 
     for (let i = 0; i < rows; i++) {
         gameBoard[i] = []; //creates an array of 10 arrays
@@ -110,7 +121,7 @@ const createBoard = (boardId) => {
         rowHeader.textContent = rowLetters
         rowElement.appendChild(rowHeader)
 
-        for (let j = 0; j < coloum; j++) { // nested for loop
+        for (let j = 0; j < column; j++) { // nested for loop
             gameBoard[i][j] = '';
             const waterTiles = document.createElement('div')
             waterTiles.classList.add('board-cell', 'water-cell')
@@ -139,17 +150,22 @@ const init = () => {
     currentShipBeingPlaced = null;
     currentShipLength = 0;
     isVertical = false;
-  
+    // need to set aiShipsData as well
     setUpPlacementListeners('player-one-ocean')
+    setUpPlacementListeners('player-two-ocean')
     displayMessage.textContent = "Player One, select a ship and place it on the board"
 }
 
 const render = () => { }
 
+// const handleClick = (event) => {
+//     const clickedCell = event.target.id
+//     console.log(clickedCell)
+// }
 
 const handleShipSelection = (event) => {
     const selectedShipElement = event.target.closest('.ship-icon');
-    if (!selectedShipElement) 
+    if (!selectedShipElement)
         return;
 
     const shipName = selectedShipElement.dataset.shipName;
@@ -160,23 +176,28 @@ const handleShipSelection = (event) => {
     if (ship) {
         currentShipBeingPlaced = ship;
         currentShipLength = shipLength;
+        currentShipBeingPlaced.element = selectedShipElement;
 
         shipIcons.forEach(icon => icon.classList.remove('selected-ship'));
         selectedShipElement.classList.add('selected-ship');
 
         displayMessage.textContent = `You've selected the ${ship.name} Now click on a tile on your board to place it.`;
     }
-console.log(currentShipBeingPlaced)    
-console.log(currentShipLength)
+    // console.log(currentShipBeingPlaced)
+    // console.log(currentShipLength)
 }
 
 const handleBoardPlacement = (event) => {
     const clickedCell = event.target.closest('.board-cell')
-    console.log(clickedCell)
+    // console.log(clickedCell)
     if (!clickedCell || !clickedCell.classList.contains('water-cell')) {
         return;
     }
-    
+
+    if (allShipsPlaced === true) {
+        return;
+    }
+
     if (currentShipBeingPlaced) {
         const startRow = clickedCell.dataset.row;
         const startCol = parseInt(clickedCell.dataset.col)
@@ -200,8 +221,8 @@ const handleBoardPlacement = (event) => {
             const proposedRowLetter = String.fromCharCode('A'.charCodeAt(0) + row);
             const targetCellId = `${oceanId}-${proposedRowLetter}${col}`;
             const targetCell = document.getElementById(targetCellId);
-            
-            console.log(targetCell)
+
+            // console.log(targetCell)
 
             if (!targetCell || targetCell.classList.contains('ship')) {
                 canPlace = false;
@@ -209,7 +230,7 @@ const handleBoardPlacement = (event) => {
                 break;
             }
             proposedLocation.push(targetCell);
-            console.log(proposedLocation)
+            // console.log(proposedLocation)
         }
         if (canPlace) {
             proposedLocation.forEach(cell => {
@@ -221,7 +242,6 @@ const handleBoardPlacement = (event) => {
                 row: cell.dataset.row,
                 col: parseInt(cell.dataset.col)
             }))
-            currentShipBeingPlaced.element = proposedLocation[0].parentElement.parentElement.querySelector(`.ship-icon[data-ship-name="${currentShipBeingPlaced.name.toLowerCase().replace(/\s/g, '-')}"]`);
 
             document.querySelector(`.ship-icon[data-ship-name="${currentShipBeingPlaced.name.toLowerCase().replace(/\s/g, '-')}"]`).remove();
 
@@ -230,7 +250,9 @@ const handleBoardPlacement = (event) => {
             currentShipBeingPlaced = null;
             currentShipLength = 0;
             shipIcons.forEach(icon => icon.classList.remove('selected-ship'));
-
+            isVertical = false;
+            checkAllShipsPlaced();
+            // console.log(checkAllShipsPlaced())
         } else {
             console.log('Invalid Placement');
         }
@@ -240,6 +262,157 @@ const handleBoardPlacement = (event) => {
 
 }
 
+const handleRotateButton = (event) => {
+    const rotateButton = event.target.id
+    console.log(rotateButton)
+    if (isVertical === false) {
+        isVertical = true;
+        displayMessage.textContent = "Ship will be vertical"
+    } else {
+        isVertical = false;
+        displayMessage.textContent = "Ship will be horizontal"
+    }
+}
+
+const checkAllShipsPlaced = () => {
+    const shipCount = playerOneShipYard.childElementCount;
+    // console.log(shipCount)
+    if (shipCount === 0) {
+        playerTwoAiPlacement();
+        playerOneRotateShipButton.style.display = 'none'
+        displayMessage.textContent = "All ships have been placed!"
+        allShipsPlaced = true;
+    }
+}
+
+const playerTwoAiPlacement = () => {
+    displayMessage.textContent = "Player Two is placing their ships. PLese Wait"
+    aiShipsData.forEach((ship) => {
+        let placed = false;
+        let attempts = 0;
+        const maxAttempts = 200;
+
+        while (!placed && attempts < maxAttempts) {
+            attempts++
+
+            const randomRowIndex = Math.floor(Math.random() * 10);
+            const randomCol = Math.floor(Math.random() * 10) + 1;
+
+            const randomIsVertical = Math.random() < 0.5;
+
+            const proposedLocation = [];
+            let canAiPlace = true;
+
+            for (let i = 0; i < ship.length; i++) {
+                let checkRowIndex = randomRowIndex;
+                let checkCol = randomCol;
+
+                if (randomIsVertical) {
+                    checkRowIndex += i;
+                } else {
+                    checkCol += i;
+                }
+
+                const proposedRowLetter = String.fromCharCode('A'.charCodeAt(0) + checkRowIndex);
+                const targetCellId = `player-two-ocean- ${proposedRowLetter}${checkCol}`;
+                const targetCell = document.getElementById(targetCellId);
+
+                if (!targetCell || targetCell.classList.contains('ship')) {
+                    canAiPlace = false;
+                    break;
+                }
+                proposedLocation.push(targetCell);
+            }
+            if (canAiPlace) {
+                proposedLocation.forEach(cell => {
+                    cell.classList.add('ship')
+                })
+                ship.locations = proposedLocation.map(cell => ({
+                    row: cell.dataset.row,
+                    col: parseInt(cell.dataset.col)
+                }))
+                placed = true;
+            }
+        }
+    })
+    displayMessage.textContent = "Player Two has placed all their ships!";
+    playerTwoShipYard.style.display = 'none';
+}
+const shotsFired = (event) => {
+    const targetCell = event.target
+    // console.log(targetCell)
+    const targetBoardId = targetCell.parentElement.parentElement.id;
+
+    if (allShipsPlaced === true && currentPlayer === 'playerOne') {
+
+        const targetRowLetter = targetCell.dataset.row;
+        const targetColNumber = parseInt(targetCell.dataset.col);
+
+        let hitShip = null;
+
+        for (const ship of shipsData) {
+            const foundInLocation = ship.locations.some(loc => 
+                loc.row === targetRowLetter &&
+                loc.col === targetColNumber
+            );
+            if(foundInLocation) {
+                hitShip = ship;
+                break;
+            }
+        }
+
+        if (targetCell.classList.contains('hit-attempt')) {
+            displayMessage.textContent = "Try Again! Either attempted already or invalid cell!"
+            return;
+        } else if (hitShip) {
+            targetCell.style.backgroundColor = 'red'
+            targetCell.classList.add('hit-attempt')
+            displayMessage.textContent = "It's a hit!"
+            hitShip.hits++;
+            checkShipSunk(hitShip);
+            checkForWinner();
+            currentPlayer = 'playerTwo';
+        } else {
+            targetCell.style.backgroundColor = 'black'
+            targetCell.classList.add('hit-attempt')
+            displayMessage.textContent = "Thats a miss!!"
+            currentPlayer = 'playerTwo'
+        }
+    }
+}
+
+const aiShotsFired = (event) => {
+    const targetCell = event.target
+    if (allShipsPlaced === true && currentPlayer === playerTwo) {
+
+    }
+}
+
+const checkShipSunk = (ship) => {
+    if (ship.hit >= ship.length) {
+        if(!ship.sunk) {
+            ship.sunk = true;
+            displayMessage.textContent = `You sunk the opponents ${ship.name}!!`
+            return true;
+        }
+    }
+}
+// shotsFired();
+const checkForWinner = () => {
+    if (shipsData.every((ship) => ship.sunk === true)) {
+        winner = playerTwo;
+        displayMessage.textContent = "Player Two has won"
+    } else if (aiShipsData.every((ship) => ship.sunk === true)) {
+        winner = playerOne;
+        displayMessage.textContent = "Player One has won"
+    }
+}
+
+const resetTheGame = (event) => {
+    init();
+    displayMessage.textContent = "The game has been reset! Player One place your ships to begin!"
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 const setUpPlacementListeners = (boardId) => {
@@ -247,8 +420,11 @@ const setUpPlacementListeners = (boardId) => {
     board.addEventListener('click', handleBoardPlacement)
 }
 
+playerOneOcean.addEventListener('click', shotsFired);
+playerTwoOcean.addEventListener('click', shotsFired);
 playerOneShipYard.addEventListener('click', handleShipSelection);
-
+playerOneRotateShipButton.addEventListener('click', handleRotateButton);
+resetButun.addEventListener('click', resetTheGame);
 
 /* ---------------------------------------------------- */
 
@@ -259,3 +435,4 @@ init();
 // When the ship is clicked and held it can be draggeed onto the board, there the tiles will be highlighted green where the ship is over can can be placed
 // If the ship is to close to another ship the watertiles will become red
 // When the ship is hit/ updates the board by turning the watertile red
+// add a function so when all ships are placed it nullifies the placeShip function so a message doesnt pop up
