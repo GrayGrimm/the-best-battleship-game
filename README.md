@@ -1,5 +1,8 @@
 Games Name: The Best Battleship
 
+Game Image:
+![Game Screenshot](./images/Screenshot%20BattleShip.png)
+
 Getting Started:
 I chose Battleship because because it was one of my favorites growing up and one of my favorite movies is Battleship as well.
 
