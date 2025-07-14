@@ -158,8 +158,6 @@ const init = () => {
     displayMessage.textContent = "Player One, select a ship and place it on the board"
 }
 
-const render = () => { }
-
 const handleShipSelection = (event) => {
     const selectedShipElement = event.target.closest('.ship-icon');
     if (!selectedShipElement)

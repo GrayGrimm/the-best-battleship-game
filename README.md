@@ -26,6 +26,8 @@ https://gemini.google.com/app
 
 https://developer.mozilla.org/en-US/
 
+All of my ship images came from https://www.flaticon.com/
+
 I used these two to help me with logic and figuring out how to best layout the code.
 
 Technologies Used:
