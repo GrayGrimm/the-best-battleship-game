@@ -379,13 +379,21 @@ const shotsFired = (event) => {
             checkShipSunk(hitShip);
             checkForWinner();
             currentPlayer = 'Player Two';
-            aiShotsFired();
+            setTimeout(() => {
+                if (currentPlayer === 'Player Two') {
+                    aiShotsFired();
+                }
+            }, 1000);
         } else {
             targetCell.style.backgroundColor = 'black'
             targetCell.classList.add('hit-attempt')
             displayMessage.textContent = `${currentPlayer} missed! Player Twos Turn!`
             currentPlayer = 'Player Two'
-            aiShotsFired();
+            setTimeout(() => {
+                if (currentPlayer === 'Player Two') {
+                    aiShotsFired();
+                }
+            }, 1000);
         }
 
     }
@@ -453,7 +461,7 @@ const aiShotsFired = () => {
 
 
 const checkShipSunk = (ship) => {
-    if (ship.hit >= ship.length) {
+    if (ship.hits >= ship.length) {
         if (!ship.sunk) {
             ship.sunk = true;
             displayMessage.textContent = `You sunk the opponents ${ship.name}!!`
@@ -464,10 +472,10 @@ const checkShipSunk = (ship) => {
 
 const checkForWinner = () => {
     if (shipsData.every((ship) => ship.sunk === true)) {
-        winner = playerTwo;
+        winner = 'Player Two';
         displayMessage.textContent = "Player Two has won"
     } else if (aiShipsData.every((ship) => ship.sunk === true)) {
-        winner = playerOne;
+        winner = 'Player One';
         displayMessage.textContent = "Player One has won"
     }
 }
