@@ -115,7 +115,7 @@ const createBoard = (boardId) => {
     boardContainer.appendChild(columnHeader)
 
     for (let i = 0; i < rows; i++) {
-        gameBoard[i] = []; //creates an array of 10 arrays
+        gameBoard[i] = []; 
         const rowElement = document.createElement('div')
         rowElement.classList.add('board-row')
 
@@ -125,7 +125,7 @@ const createBoard = (boardId) => {
         rowHeader.textContent = rowLetters
         rowElement.appendChild(rowHeader)
 
-        for (let j = 0; j < column; j++) { // nested for loop
+        for (let j = 0; j < column; j++) { 
             gameBoard[i][j] = '';
             const waterTiles = document.createElement('div')
             waterTiles.classList.add('board-cell', 'water-cell')
@@ -168,7 +168,7 @@ const handleShipSelection = (event) => {
     const shipName = selectedShipElement.dataset.shipName;
     const shipLength = parseInt(selectedShipElement.dataset.length);
 
-    const ship = shipsData.find(ships => ships.name.toLowerCase().replace(/\s/g, '-') === shipName); // replaces the white space globablly with -
+    const ship = shipsData.find(ships => ships.name.toLowerCase().replace(/\s/g, '-') === shipName);
 
     if (ship) {
         currentShipBeingPlaced = ship;
@@ -496,11 +496,15 @@ resetButun.addEventListener('click', resetTheGame);
 /* ---------------------------------------------------- */
 
 init();
-// console.log(playerTwoRows)
 
-// When the ship is clicked, it becomes selected, then when the rotate button is clicked it rotates the ship in the ship-yard, this returns with nothing selected
-// When the ship is clicked and held it can be draggeed onto the board, there the tiles will be highlighted green where the ship is over can can be placed
-// If the ship is to close to another ship the watertiles will become red
-// When the ship is hit/ updates the board by turning the watertile red
-// add a function so when all ships are placed it nullifies the placeShip function so a message doesnt pop up
-// maybe add a button for ai ship attack
+
+/*-------------------------------------Code Graveyard---------------------------------------------------------------------------------------------------------
+
+When the ship is clicked, it becomes selected, then when the rotate button is clicked it rotates the ship in the ship-yard, this returns with nothing selected
+When the ship is clicked and held it can be draggeed onto the board, there the tiles will be highlighted green where the ship is over can can be placed
+If the ship is to close to another ship the watertiles will become red
+When the ship is hit/ updates the board by turning the watertile red
+add a function so when all ships are placed it nullifies the placeShip function so a message doesnt pop up
+maybe add a button for ai ship attack
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
