@@ -66,7 +66,7 @@ const aiShipsData = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let currentPlayer = 'Player One'; // Variable for current player
+let currentPlayer = 'Player One';
 let currentShipBeingPlaced = null;
 let currentShipLength = 0;
 let isVertical = false;
@@ -89,7 +89,6 @@ const playerOneShipYard = document.getElementById('player-one-ship-yard')
 const playerTwoShipYard = document.getElementById('player-two-ship-yard')
 const playerOneRotateShipButton = document.querySelector('#player-one-rotate-ship-button')
 const resetButun = document.querySelector('#reset-the-game-button')
-// const playerTwoRotateShipButton = document.querySelector('#player-two-rotate-ship-button')
 
 /*-------------------------------- Functions --------------------------------*/
 const createBoard = (boardId) => {
@@ -154,7 +153,6 @@ const init = () => {
     currentShipBeingPlaced = null;
     currentShipLength = 0;
     isVertical = false;
-    // need to set aiShipsData as well
     setUpPlacementListeners('player-one-ocean')
     setUpPlacementListeners('player-two-ocean')
     displayMessage.textContent = "Player One, select a ship and place it on the board"
@@ -182,13 +180,11 @@ const handleShipSelection = (event) => {
 
         displayMessage.textContent = `You've selected the ${ship.name} Now click on a tile on your board to place it.`;
     }
-    // console.log(currentShipBeingPlaced)
-    // console.log(currentShipLength)
 }
 
 const handleBoardPlacement = (event) => {
     const clickedCell = event.target.closest('.board-cell')
-    // console.log(clickedCell)
+
     if (!clickedCell || !clickedCell.classList.contains('water-cell')) {
         return;
     }
@@ -202,10 +198,9 @@ const handleBoardPlacement = (event) => {
         const startCol = parseInt(clickedCell.dataset.col)
         const oceanId = clickedCell.parentElement.parentElement.id;
 
-        //convert letters to numbers
         const startRowIndex = startRow.charCodeAt(0) - 'A'.charCodeAt(0);
 
-        const proposedLocation = []; // will hold the <div>
+        const proposedLocation = [];
         let canPlace = true;
 
         for (let i = 0; i < currentShipLength; i++) {
@@ -221,7 +216,6 @@ const handleBoardPlacement = (event) => {
             const targetCellId = `${oceanId}-${proposedRowLetter}${col}`;
             const targetCell = document.getElementById(targetCellId);
 
-            // console.log(targetCell)
 
             if (!targetCell || targetCell.classList.contains('ship')) {
                 canPlace = false;
@@ -229,7 +223,6 @@ const handleBoardPlacement = (event) => {
                 break;
             }
             proposedLocation.push(targetCell);
-            // console.log(proposedLocation)
         }
         if (canPlace) {
             proposedLocation.forEach(cell => {
@@ -260,7 +253,6 @@ const handleBoardPlacement = (event) => {
             shipIcons.forEach(icon => icon.classList.remove('selected-ship'));
             isVertical = false;
             checkAllShipsPlaced();
-            // console.log(checkAllShipsPlaced())
         } else {
             console.log('Invalid Placement');
         }
@@ -284,7 +276,6 @@ const handleRotateButton = (event) => {
 
 const checkAllShipsPlaced = () => {
     const shipCount = playerOneShipYard.childElementCount;
-    // console.log(shipCount)
     if (shipCount === 0) {
         playerTwoAiPlacement();
         playerOneRotateShipButton.style.display = 'none'
@@ -358,7 +349,7 @@ const playerTwoAiPlacement = () => {
 }
 const shotsFired = (event) => {
     const targetCell = event.target
-    // console.log(targetCell)
+
     const targetBoardId = targetCell.parentElement.parentElement.id;
 
     if (allShipsPlaced === true && currentPlayer === 'Player One') {
@@ -404,9 +395,6 @@ const shotsFired = (event) => {
 }
 
 const aiShotsFired = () => {
-
-    const oceanGrid = [];
-    const attemptedOceanCell = [];
 
     if (allShipsPlaced === true && currentPlayer === 'Player Two') {
         let targetRowIndex;
